@@ -17,14 +17,24 @@ const DashboardComp = () => {
 	if (isLoading) return <div>Yuklanmoqda...</div>;
 	if (error) return <div>Xatolik yuz berdi: {error.message}</div>;
 
+	let userName = `Andrew`;
+
 	if (email && password) {
 		let user = data.find((user) => user.email === email);
 		if (!user || user.password !== password) {
 			navigate("/login");
+		} else {
+			userName = user.name;
 		}
 	} else {
 		navigate(`/login`);
 	}
+
+	let logOut = () => {
+		localStorage.clear();
+		navigate("/login");
+	};
+
 	return (
 		<section className="flex items-start justify-between gap-8 p-8">
 			<div className="flex flex-col justify-between gap-4 h w-[12em]  border-r-2 border-gray-200">
@@ -89,6 +99,11 @@ const DashboardComp = () => {
 						</p>
 					</div>
 					<div className="flex items-center gap-3">
+						<p
+							onClick={() => logOut()}
+							className="font-semibold text-gray-600 cursor-pointer">
+							Log out
+						</p>
 						<div>
 							<img src="/src/assets/bell.svg" alt="" />
 						</div>
@@ -99,7 +114,7 @@ const DashboardComp = () => {
 							<img src="/src/assets/Group 135.svg" alt="" />
 						</div>
 						<div className="flex flex-col items-start">
-							<p className="text-[13px]">Andrew</p>
+							<p className="text-[13px]">{userName}</p>
 							<p className="text-[13px] text-gray-500">Admin account</p>
 						</div>
 					</div>
